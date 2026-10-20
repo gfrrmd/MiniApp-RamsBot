@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "functions": { "api/router.js": { "maxDuration": 10 } },
+  "rewrites": [
+    { "source": "/api/:route*", "destination": "/api/router?route=:route*" },
+    { "source": "/console", "destination": "/console/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "no-referrer" },
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' https://telegram.org; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; base-uri 'none'; form-action 'none'" }
+      ]
+    },
+    { "source": "/api/(.*)", "headers": [ { "key": "Cache-Control", "value": "no-store" } ] }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "ramsbot-miniapp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Telegram Mini App untuk RamsBot: pembelian VIP, pengaturan akun, dan panel admin tersembunyi.",
+  "engines": { "node": "20.x" },
+  "scripts": { "test": "node tests/run.js" },
+  "dependencies": {
+    "pg": "^8.13.1",
+    "qrcode": "^1.5.4"
+  }
+}
