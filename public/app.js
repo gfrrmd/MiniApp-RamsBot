@@ -199,11 +199,14 @@
       <div style="text-align:center;margin:16px 0"><div class="label">Total bayar</div><div class="big gold" style="margin-top:4px">${rp(o.total)}</div>
       <button class="btn ghost sm" style="margin-top:10px" data-copy="${o.total}">${ico('copy', 's')} Salin nominal</button></div>${kvs}
       <div class="kv"><span>Batas bayar</span><span>${esc(RB.date(o.deadline))}</span></div>
-      <div style="margin:14px 0">${note('Bayar <b>tepat sesuai total</b> (termasuk kode unik), lalu unggah bukti bayar. Admin akan memverifikasi pesananmu.')}</div>
-      <label class="btn block" style="cursor:pointer">${ico('upload', 's')} Unggah bukti bayar<input type="file" accept="image/*" hidden data-proof></label>
+      <div style="margin:14px 0">${note('Bayar <b>tepat sesuai total</b> (termasuk kode unik), lalu kirim bukti bayar.')}</div>
+      <button class="btn block" data-botpay>${ico('bolt', 's')} Verifikasi otomatis lewat bot</button>
+      <p class="xs dim" style="margin:8px 4px 14px;text-align:center">Kirim bukti di chat bot. Bot memeriksa nominalnya, dan jika cocok VIP aktif otomatis. Jika tidak, diteruskan ke admin.</p>
+      <label class="btn ghost block" style="cursor:pointer">${ico('upload', 's')} Unggah bukti ke admin (manual)<input type="file" accept="image/*" hidden data-proof></label>
       <button class="btn danger block" style="margin-top:10px" data-cancel>Batalkan pesanan</button>`;
     if (o.status === 'verifying') return `${head}<div style="text-align:center;padding:10px 0 18px"><div class="spin" style="margin:0 auto 14px"></div><div style="font-weight:600">Menunggu verifikasi admin</div><div class="sm mut" style="margin-top:4px">Halaman ini diperbarui otomatis. Kamu juga akan menerima pesan dari bot.</div></div>${kvs}<div class="kv"><span>Total</span><span><b>${rp(o.total)}</b></span></div>
-      <label class="btn ghost block" style="margin-top:14px;cursor:pointer">Kirim ulang bukti<input type="file" accept="image/*" hidden data-proof></label>`;
+      <button class="btn ghost block" style="margin-top:14px" data-botpay>Kirim ulang bukti lewat bot</button>
+      <label class="btn ghost block" style="margin-top:10px;cursor:pointer">Kirim ulang bukti ke admin<input type="file" accept="image/*" hidden data-proof></label>`;
     if (o.status === 'paid') return `${head}<div style="text-align:center;margin:6px 0 16px"><div class="tile" style="margin:0 auto 12px;width:54px;height:54px;border-radius:16px;color:var(--ok);background:rgba(98,209,160,.1);border-color:rgba(98,209,160,.3)">${ico('check')}</div>
       <div style="font-weight:650;font-size:18px">Pembayaran berhasil</div><div class="sm mut" style="margin-top:4px">VIP kamu sudah aktif.</div></div>${kvs}<div class="kv"><span>Total</span><span><b>${rp(o.total)}</b></span></div>
       ${o.token ? `<div style="margin-top:16px">${tokenBlock(o.token)}</div>` : ''}<button class="btn block" style="margin-top:14px" data-close>Selesai</button>`;
@@ -213,6 +216,7 @@
     s.el.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', () => { s.close(); if (b.hasAttribute('data-shop')) { S.tab = 'shop'; render(); } }));
     s.el.querySelectorAll('[data-copy]').forEach((b) => b.addEventListener('click', () => RB.copy(b.dataset.copy, 'Nominal disalin')));
     s.el.querySelectorAll('[data-act="copytoken"]').forEach((b) => b.addEventListener('click', () => RB.copy(b.dataset.v, 'Token disalin')));
+    s.el.querySelectorAll('[data-botpay]').forEach((b) => b.addEventListener('click', () => openBot('pay_' + o.id)));
     const cancel = s.el.querySelector('[data-cancel]');
     if (cancel) cancel.addEventListener('click', async () => {
       if (!(await RB.confirm('Batalkan pesanan?', 'Pesanan ini akan dibatalkan dan QR tidak berlaku lagi.', 'Batalkan', true))) return;
