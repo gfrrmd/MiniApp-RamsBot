@@ -55,7 +55,8 @@ Setelah mengisi variabel, lakukan **Redeploy**. Catat URL produksinya, misalnya 
 
 ## Cara kerja dan batasan
 
-- **Pembelian**: pesanan dan QRIS dinamis dibuat sama persis dengan bot (kode unik, batas waktu, promo, 100% gratis). Bukti bayar dari web dikirim ke chat admin lewat bot lengkap dengan tombol Approve/Tolak, dan juga bisa disetujui dari Console. Verifikasi otomatis OCR hanya ada di alur bot, jadi pembayaran dari web diverifikasi admin.
+- **Pembelian**: pesanan dan QRIS dinamis dibuat sama persis dengan bot (kode unik, batas waktu, promo, 100% gratis).
+- **Verifikasi pembayaran**: di halaman pesanan ada tombol **Verifikasi otomatis lewat bot**. Tombol itu membuka bot dengan deep link `/start pay_<id>`, user mengirim bukti di sana, dan bot memprosesnya dengan alur yang sama seperti pembelian di bot (OCR auto-verifikasi, cek bukti ganda, daftar wajib-manual). Jika OCR belum diaktifkan admin atau nominal tidak cocok, bukti diteruskan ke admin. Halaman pesanan di Mini App memperbarui status otomatis begitu bot mengonfirmasi. Tersedia juga **Unggah bukti ke admin (manual)** langsung dari Mini App, yang bisa disetujui lewat tombol Approve di chat bot atau Console.
 - **Setup session** (login nomor, kode OTP) tetap lewat bot karena memerlukan Telethon. Tombol **Setup lewat bot** di Mini App membuka bot dengan deep link.
 - **Session otomatis aktif**: setelah VIP aktif lewat web (approve, voucher, token), bot menyalakan session user dalam sekitar 1 menit lewat scheduler. Saat VIP dicabut atau dipindah, session dimatikan.
 - **Notifikasi**: konfirmasi pembayaran, token, penolakan, dan pengumuman dikirim lewat Bot API dari server.
