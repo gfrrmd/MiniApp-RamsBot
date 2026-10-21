@@ -12,7 +12,7 @@
   const exp = (s) => (s ? esc(RB.date(s)) : 'Tanpa batas');
 
   function shell(body) {
-    root.innerHTML = `<div class="wrap wide"><div class="top"><span class="brand">Console</span><span class="badge gold">${ico('shield', 's')} Admin</span></div>
+    root.innerHTML = `<div class="wrap wide"><div class="top"><span class="brand">Admin</span><span class="badge gold">${ico('shield', 's')} Admin</span></div>
       <div class="tabs">${TABS.map(([k, l]) => `<button class="${C.tab === k ? 'on' : ''}" data-act="tab" data-tab="${k}">${l}</button>`).join('')}</div>
       <div id="pane">${body}</div></div>`;
   }
