@@ -58,7 +58,7 @@
   RB.sheet = (html, onClose) => {
     const bg = document.createElement('div'); bg.className = 'sheet-bg';
     bg.innerHTML = `<div class="sheet" role="dialog"><div class="grab"></div>${html}</div>`;
-    const entry = { el: bg.firstChild, close() { const i = stack.indexOf(entry); if (i >= 0) stack.splice(i, 1); bg.remove(); syncBack(); if (onClose) onClose(); } };
+    const entry = { el: bg.firstChild, close() { const i = stack.indexOf(entry); if (i >= 0) stack.splice(i, 1); bg.classList.add('out'); setTimeout(() => bg.remove(), 190); syncBack(); if (onClose) onClose(); } };
     bg.addEventListener('click', (e) => { if (e.target === bg) entry.close(); });
     document.body.appendChild(bg); stack.push(entry); syncBack();
     return entry;
@@ -137,4 +137,17 @@
   });
 
   RB.fail = (e) => RB.toast(e && e.message ? e.message : 'Terjadi kesalahan', 'bad');
+
+  // ── Umpan balik sentuhan: ripple + getar halus (Haptic Telegram) ──
+  RB.haptic = (kind = 'light') => { try { if (tg && tg.HapticFeedback) { if (kind === 'select') tg.HapticFeedback.selectionChanged(); else tg.HapticFeedback.impactOccurred(kind); } } catch (_) {} };
+  const RIPPLE = '.btn,.quick,.item,.nav button,.mini button,.mod-h,.cmd,.plan,.seg button,.tabs button';
+  document.addEventListener('pointerdown', (e) => {
+    const el = e.target.closest && e.target.closest(RIPPLE);
+    if (!el || el.disabled) return;
+    const r = el.getBoundingClientRect(), d = Math.max(r.width, r.height) * 1.6, dot = document.createElement('span');
+    dot.className = 'rp'; dot.style.cssText = `width:${d}px;height:${d}px;left:${e.clientX - r.left - d / 2}px;top:${e.clientY - r.top - d / 2}px`;
+    if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
+    el.appendChild(dot); setTimeout(() => dot.remove(), 600);
+    RB.haptic('light');
+  }, { passive: true });
 })();
