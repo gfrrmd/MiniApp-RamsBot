@@ -4,7 +4,7 @@
   const root = document.getElementById('app');
   const C = { tab: 'overview', filter: 'open' };
 
-  const TABS = [['overview', 'Ringkasan'], ['orders', 'Pesanan'], ['users', 'User'], ['plans', 'Paket'], ['promos', 'Promo'], ['vouchers', 'Voucher'], ['settings', 'Pembayaran'], ['announce', 'Siaran'], ['blacklist', 'Blacklist']];
+  const TABS = [['overview', 'Ringkasan', 'chart'], ['orders', 'Pesanan', 'list'], ['users', 'User', 'users'], ['plans', 'Paket', 'bag'], ['promos', 'Promo', 'tag'], ['vouchers', 'Voucher', 'ticket'], ['settings', 'Pembayaran', 'gear'], ['announce', 'Siaran', 'send'], ['blacklist', 'Blacklist', 'block']];
   const ST = { pending: ['Menunggu bayar', 'warn'], verifying: ['Perlu verifikasi', 'gold'], paid: ['Lunas', 'ok'], rejected: ['Ditolak', 'bad'], cancelled: ['Dibatalkan', ''], expired: ['Kedaluwarsa', ''], revoked: ['Dibatalkan admin', 'bad'] };
   const badge = (t, c) => `<span class="badge ${c || ''}"><i class="dot"></i>${esc(t)}</span>`;
   const note = (h, c = '') => `<div class="note ${c}">${ico('alert', 's')}<div>${h}</div></div>`;
@@ -13,10 +13,10 @@
 
   function shell(body) {
     root.innerHTML = `<div class="wrap wide"><div class="top"><span class="brand">Dashboard Admin</span><span class="badge gold">${ico('shield', 's')} Admin</span></div>
-      <div class="tabs">${TABS.map(([k, l]) => `<button class="${C.tab === k ? 'on' : ''}" data-act="tab" data-tab="${k}">${l}</button>`).join('')}</div>
-      <div id="pane">${body}</div></div>`;
+      <div class="anav" role="tablist">${TABS.map(([k, l, i]) => `<button class="${C.tab === k ? 'on' : ''}" role="tab" aria-selected="${C.tab === k}" data-act="tab" data-tab="${k}">${ico(i)}<span>${l}</span></button>`).join('')}</div>
+      <div id="pane" class="view">${body}</div></div>`;
   }
-  const pane = (html) => { const p = document.getElementById('pane'); if (p) p.innerHTML = html; };
+  const pane = (html) => { const p = document.getElementById('pane'); if (!p) return; p.innerHTML = html; p.classList.remove('view'); void p.offsetWidth; p.classList.add('view'); };
 
   // Sheet berisi form sederhana
   function formSheet(title, fields, label, onSubmit, desc) {
@@ -45,13 +45,13 @@
   }
 
   // ── Pesanan ──
-  const FILTERS = [['open', 'Perlu tindakan'], ['paid', 'Lunas'], ['rejected', 'Gagal'], ['all', 'Semua']];
+  const FILTERS = [['open', 'Perlu aksi'], ['paid', 'Lunas'], ['rejected', 'Gagal'], ['all', 'Semua']];
   async function vOrders(page = 0, append = false) {
     const r = await RB.api(`admin/orders?status=${C.filter}&page=${page}`);
     const list = r.orders.map((o) => { const [t, c] = ST[o.status] || [o.status, '']; return `<button class="item" data-act="order" data-id="${o.id}"><span class="grow"><div class="t">#${o.id} - ${esc(o.full_name || o.user_id)}</div><div class="s">${esc(o.plan_name)} - ${rp(o.total)} - ${esc(RB.date(o.created_at))}</div></span>${badge(t, c)}</button>`; }).join('');
     const more = r.more ? `<button class="btn ghost block" data-act="ordersmore" data-page="${page + 1}">Muat lagi</button>` : '';
     if (append) { document.getElementById('olist').insertAdjacentHTML('beforeend', list); const m = document.getElementById('omore'); m.innerHTML = more; return; }
-    pane(`<div class="tabs" style="margin-bottom:4px">${FILTERS.map(([k, l]) => `<button class="${C.filter === k ? 'on' : ''}" data-act="filter" data-f="${k}">${l}</button>`).join('')}</div>
+    pane(`<div class="seg" role="tablist">${FILTERS.map(([k, l]) => `<button class="${C.filter === k ? 'on' : ''}" role="tab" data-act="filter" data-f="${k}">${l}</button>`).join('')}</div>
       <div id="olist">${list || '<div class="empty">Tidak ada pesanan.</div>'}</div><div id="omore">${more}</div>`);
   }
   async function openOrder(id) {
