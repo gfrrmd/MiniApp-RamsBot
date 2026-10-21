@@ -196,3 +196,13 @@ pre.codes{background:#0c0c0f;border:1px solid var(--line2);border-radius:12px;pa
 @keyframes fadeout{to{opacity:0}}@keyframes down{to{transform:translateY(40px);opacity:.3}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}.stg>*{opacity:1}}
 @media(max-width:360px){.mini{grid-template-columns:repeat(2,1fr)}.how{grid-template-columns:1fr}}
+
+/* ===== Console admin: menu grid tanpa geser ===== */
+.anav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 16px}
+.anav button{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px 10px;border-radius:14px;background:var(--s1);border:1px solid var(--line);color:var(--mut);font-size:12px;font-weight:600;cursor:pointer;transition:transform .12s,background .2s,border-color .2s,color .2s}
+.anav button:active{transform:scale(.95)}
+.anav button.on{color:var(--gold);background:var(--goldbg);border-color:rgba(217,189,122,.45)}
+.anav button.on .ico{animation:pop .35s cubic-bezier(.3,1.5,.5,1)}
+.anav .ico{width:21px;height:21px}
+.seg button{white-space:nowrap}
+@media(min-width:760px){.anav{grid-template-columns:repeat(9,1fr)}}

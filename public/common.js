@@ -140,7 +140,7 @@
 
   // ── Umpan balik sentuhan: ripple + getar halus (Haptic Telegram) ──
   RB.haptic = (kind = 'light') => { try { if (tg && tg.HapticFeedback) { if (kind === 'select') tg.HapticFeedback.selectionChanged(); else tg.HapticFeedback.impactOccurred(kind); } } catch (_) {} };
-  const RIPPLE = '.btn,.quick,.item,.nav button,.mini button,.mod-h,.cmd,.plan,.seg button,.tabs button';
+  const RIPPLE = '.btn,.quick,.item,.nav button,.mini button,.mod-h,.cmd,.plan,.seg button,.tabs button,.anav button';
   document.addEventListener('pointerdown', (e) => {
     const el = e.target.closest && e.target.closest(RIPPLE);
     if (!el || el.disabled) return;
