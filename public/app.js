@@ -165,7 +165,7 @@
   function successSheet(path, r) {
     const redeem = path === 'token/redeem';
     const s = RB.sheet(`<div style="text-align:center;margin:4px 0 16px"><div class="tile" style="margin:0 auto 12px;width:54px;height:54px;border-radius:16px;color:var(--ok);background:rgba(98,209,160,.1);border-color:rgba(98,209,160,.3)">${ico('check')}</div>
-      <h3 class="h1" style="font-size:21px">${redeem ? 'VIP berhasil dipindahkan' : 'Voucher berhasil diklaim'}</h3>
+      <h3 class="h1" style="font-size:21px">${redeem ? 'VIP berhasil dipindahkan' : 'Voucher berhasil diklaim! Silahkan setup session untuk menggunakan Fitur VIP'}</h3>
       <p class="mut sm" style="margin-top:6px">${redeem ? '' : `Tambahan ${r.days} hari. `}VIP aktif hingga <b style="color:var(--tx)">${esc(RB.date(r.expired))}</b></p></div>
       ${tokenBlock(redeem ? { token: r.token, uses: r.uses, max_uses: r.max_uses } : r.token)}
       <button class="btn block" style="margin-top:14px" data-done>${redeem ? 'Lanjut setup session' : 'Selesai'}</button>`);
