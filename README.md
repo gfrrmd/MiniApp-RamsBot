@@ -4,12 +4,12 @@ Website Telegram Mini App untuk RamsBot, siap deploy di Vercel dan terhubung ke 
 
 Isi aplikasi:
 - Login dengan Telegram otomatis (initData divalidasi HMAC di server, tanpa kata sandi).
-- Beranda: status VIP, sisa masa aktif, status session, akses cepat.
-- Beli VIP: daftar paket, kode promo, QRIS dinamis, unggah bukti bayar, riwayat pesanan.
-- Fitur: Auto DL view once, QRIS dinamis pribadi, blacklist broadcast, auto block leaver, panduan perintah.
+- Beranda: ringkas. Status VIP, checklist "Mulai di sini" (aktifkan VIP, setup session, pakai fitur), dan akses cepat.
+- Beli VIP: paket berbentuk pilihan (radio + border), kode promo, QRIS dinamis, unggah bukti bayar, riwayat pesanan.
+- Fitur: satu kartu per fitur yang bisa dibuka (cara pakai bertahap, perintah yang bisa disalin dengan sekali tap, catatan, dan pengaturannya): Auto DL view once, Channel/Grup Private, Story, Broadcast dan blacklist, QRIS dinamis, Auto Approve, Auto Block Leaver, Rich Post, Ping.
 - Akun: token VIP (lihat, salin, pindahkan VIP), klaim voucher, trial.
-- Console admin (terpisah dan tersembunyi): ringkasan, pesanan (approve, tolak, batalkan), user, paket, promo, voucher, pembayaran, siaran, blacklist.
-- Tema dark premium, tanpa emoji, ikon SVG.
+- Console admin (terpisah dan tersembunyi): menu grid tanpa geser (ringkasan, pesanan, user, paket, promo, voucher, pembayaran, siaran, blacklist) dan filter pesanan berbentuk segmen.
+- Tema dark premium, tanpa emoji, ikon SVG. Animasi sentuhan (ripple, getar halus Telegram, transisi halaman) yang otomatis nonaktif jika perangkat memakai "kurangi gerakan".
 
 ## Prasyarat
 
@@ -57,7 +57,8 @@ Setelah mengisi variabel, lakukan **Redeploy**. Catat URL produksinya, misalnya 
 
 - **Pembelian**: pesanan dan QRIS dinamis dibuat sama persis dengan bot (kode unik, batas waktu, promo, 100% gratis).
 - **Verifikasi pembayaran**: di halaman pesanan ada tombol **Verifikasi otomatis lewat bot**. Tombol itu membuka bot dengan deep link `/start pay_<id>`, user mengirim bukti di sana, dan bot memprosesnya dengan alur yang sama seperti pembelian di bot (OCR auto-verifikasi, cek bukti ganda, daftar wajib-manual). Jika OCR belum diaktifkan admin atau nominal tidak cocok, bukti diteruskan ke admin. Halaman pesanan di Mini App memperbarui status otomatis begitu bot mengonfirmasi. Tersedia juga **Unggah bukti ke admin (manual)** langsung dari Mini App, yang bisa disetujui lewat tombol Approve di chat bot atau Console.
-- **Setup session** (login nomor, kode OTP) tetap lewat bot karena memerlukan Telethon. Tombol **Setup lewat bot** di Mini App membuka bot dengan deep link.
+- **Setup session** (login nomor, kode OTP) tetap lewat bot karena memerlukan Telethon. Mini App menampilkan panduan 6 langkah, lalu tombol **Buka bot dan mulai setup** membuka bot dengan deep link.
+- **Rich Post** dijalankan sepenuhnya di bot (tidak butuh session). Mini App hanya menampilkan panduannya di tab Fitur.
 - **Session otomatis aktif**: setelah VIP aktif lewat web (approve, voucher, token), bot menyalakan session user dalam sekitar 1 menit lewat scheduler. Saat VIP dicabut atau dipindah, session dimatikan.
 - **Notifikasi**: konfirmasi pembayaran, token, penolakan, dan pengumuman dikirim lewat Bot API dari server.
 - **Token VIP**: semua aturan sama dengan bot (maks 3 kali, kode berganti saat beli lagi, pembatalan order mengikuti rantai perpindahan).

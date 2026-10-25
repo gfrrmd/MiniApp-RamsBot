@@ -44,6 +44,16 @@
         ['Perintah', 'cmds', [['.qris (nominal)', 'Contoh: .qris 25000'], ['.qris 25k', 'Singkatan juga bisa: 25k, 25rb, 1,5jt']]],
         ['Catatan', 'hint', 'QRIS statis harus valid (diawali 000201). Hasil dipakai langsung oleh pembayar tanpa perlu mengetik nominal.'],
       ] },
+    { id: 'rich', icon: 'list', title: 'Rich Post', sum: 'Posting ke channel atau grup dengan format Rich Messages',
+      sec: [
+        ['Cara pakai', 'steps', ['Jadikan <b>@BOTNAME</b> admin di channel atau grup tujuan. Di channel, aktifkan izin <b>Post Messages</b>.', 'Di bot: <b>Fitur VIP</b>, lalu <b>Rich Post</b>, kemudian <b>Tujuan Saya</b> dan <b>Tambah Tujuan</b> (kirim @username, ID, atau forward satu pesan dari channel).', 'Tekan <b>Buat Postingan</b>, lalu kirim teks, atau foto/video dengan caption.', 'Pilih opsi format, cek <b>Pratinjau</b>, pilih tujuan, lalu <b>Posting</b>.']],
+        ['Opsi format', 'text', 'Gaya (normal, kutipan, kutipan lipat, teks lipat, panel), judul dengan ukuran H1 sampai H6, spoiler, garis pemisah, footer, tombol link, notifikasi senyap, dan lindungi konten dari forward. Di isi utama, tulis ==teks== untuk menyorot.'],
+        ['Blok tambahan', 'steps', ['Di panel Rich Post tekan <b>Blok</b>, lalu pilih jenis blok.', 'Ikuti petunjuk bot. Misalnya <b>Tabel</b>: kirim baris dengan kolom dipisah tanda |, baris pertama jadi header.', 'Geser urutan dengan tombol panah atau hapus dengan tong sampah. Maksimal 20 blok.']],
+        ['Jenis blok', 'text', 'Heading, daftar (poin, nomor, centang), tabel, kode, kutipan, kutipan tengah, teks lipat, rumus, peta, galeri (kolase atau slideshow), pemisah, dan penempatan tombol.'],
+        ['Tombol dalam teks', 'steps', ['Simpan tombol di opsi <b>Tombol link</b>. Format: Teks | link | warna (biru, hijau, merah, polos).', 'Ubah <b>Posisi</b> menjadi <b>Dalam teks</b>. Tombol otomatis di akhir isi.', 'Untuk menaruhnya di tengah teks, tulis penanda di isi postingan, di baris sendiri.']],
+        ['Penanda posisi', 'cmds', [['{tombol}', 'Semua tombol di titik itu'], ['{tombol:2}', 'Hanya tombol nomor 2']]],
+        ['Catatan', 'hint', 'Tidak perlu setup session. Kamu dan bot sama-sama harus admin di tujuan. Jika Rich Messages ditolak Telegram, postingan tidak terkirim otomatis dan kamu bisa memilih kirim sebagai pesan biasa.'],
+      ] },
     { id: 'accept', icon: 'users', title: 'Auto Approve', sub: '', sum: 'Setujui semua permintaan join sekaligus',
       sec: [
         ['Cara pakai', 'steps', ['Pastikan kamu <b>admin</b> channel atau grup yang memakai persetujuan join.', 'Ketik perintah di dalam channel itu, atau tambahkan username atau link-nya.', 'Semua permintaan yang menunggu disetujui satu per satu sampai selesai.']],
@@ -232,7 +242,7 @@
     const gate = !act
       ? `<div class="gate">${ico('lock')}<div class="grow"><div class="t">Fitur terkunci</div><div class="s">Aktifkan VIP dulu. Panduan di bawah tetap bisa dibaca.</div></div><button class="btn sm" data-act="tab" data-tab="shop">Beli VIP</button></div>`
       : !m.hasSession
-        ? `<div class="gate">${ico('alert')}<div class="grow"><div class="t">Session belum disetel</div><div class="s">Perintah baru berjalan setelah akunmu terhubung ke bot.</div></div><button class="btn sm" data-act="setup">Setup</button></div>` : '';
+        ? `<div class="gate">${ico('alert')}<div class="grow"><div class="t">Session belum disetel</div><div class="s">Perintah berawalan titik (.dl, .copy, dst) baru jalan setelah akunmu terhubung. Rich Post tidak memerlukan session.</div></div><button class="btn sm" data-act="setup">Setup</button></div>` : '';
     return `<h1 class="h1">Fitur VIP</h1><p class="tip" style="margin-top:6px">Ketuk fitur untuk melihat cara pakai. Semua perintah diketik dari akun Telegram kamu sendiri di chat mana saja, bukan dikirim ke bot.</p>
       ${gate}
       ${MODULES.map((md) => `<div class="mod ${S.open[md.id] ? 'open' : ''}" data-mod="${md.id}"><button class="mod-h" data-act="modtoggle" data-id="${md.id}"><span class="tile">${ico(md.icon)}</span><span class="grow"><div class="t">${esc(md.title)}</div><div class="s">${esc(md.sum)}</div></span>${modChip(md.id)}${ico('chev', 's chev')}</button>
